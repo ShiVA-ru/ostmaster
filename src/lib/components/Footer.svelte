@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { company } from '#lib/data.ts';
+  import { company } from "#lib/data.ts";
 </script>
 
 <footer>
