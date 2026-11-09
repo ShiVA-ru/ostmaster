@@ -1,56 +1,31 @@
-# sv
+# ОстМастер
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
+Сайт ООО «ОстМастер». SvelteKit 3, Svelte 5, статическая сборка (`adapter-static`), Bun 1.4.4.
 
 ```sh
-# create a new project
-npx sv create my-app
+bun install
+bun run dev      # разработка
+bun run check    # типы
+bun run build    # статическая сборка в build/
+bun run preview  # просмотр сборки
 ```
 
-To recreate this project with the same configuration:
+## Публикация на GitHub Pages
+
+Публикация идёт через GitHub Actions: `.github/workflows/deploy.yml`.
+
+1. В репозитории откройте **Settings → Pages** и в поле **Source** выберите **GitHub Actions**.
+2. Отправьте изменения в ветку `main`. Workflow проверит типы, соберёт сайт и опубликует `build/`.
+
+Адрес сайта зависит от настройки:
+
+- **Без своего домена:** сайт живёт в `https://<пользователь>.github.io/<репозиторий>/`. Базовый путь `/<репозиторий>` workflow задаёт сам через переменную `BASE_PATH`.
+- **Со своим доменом** (например, `ostmaster.net`): создайте файл `static/CNAME` с одной строкой, доменом. Тогда workflow собирает сайт от корня (`BASE_PATH` пустой). В DNS у домена нужна запись `CNAME` на `<пользователь>.github.io` (или `A`-записи GitHub Pages для корневого домена), а в **Settings → Pages → Custom domain** укажите домен и включите HTTPS.
+
+Локальная проверка сборки с базовым путём:
 
 ```sh
-# recreate this project
-npx sv@1.3.0 create --template minimal --types ts --install npm .
+BASE_PATH=/ostmaster bun run build && bun run preview
 ```
 
-## Adding features
-
-Add features to your project with `sv add`:
-
-```sh
-npx sv add
-```
-
-For example, to add Tailwind CSS:
-
-```sh
-npx sv add tailwindcss
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `bun install` (or `pbun install` or `yarn`), start a development server:
-
-```sh
-bun run dev
-
-# or start the server and open the app in a new browser tab
-bun run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-bun run build
-```
-
-You can preview the production build with `bun run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Файл `static/.nojekyll` отключает обработку Jekyll, иначе GitHub Pages игнорирует каталог `_app`.

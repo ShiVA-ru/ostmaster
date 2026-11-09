@@ -1,9 +1,10 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import emblem from '#lib/assets/emblem.svg';
 	import { company } from '#lib/data.ts';
 </script>
 
-<a href="/" class="logo">
+<a href={resolve('/')} class="logo">
 	<img src={emblem} alt="" width="766" height="482" />
 	<span class="words">
 		<span class="name">ООО «ОстМастер»</span>

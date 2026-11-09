@@ -5,7 +5,7 @@
 
 <section class="wrap section grid">
 	<figure>
-		<enhanced:img src={photo} alt={director.name} sizes="250px" loading="lazy" />
+		<enhanced:img src={photo} alt={director.name} sizes="(min-width: 640px) 250px, 100vw" loading="lazy" />
 		<figcaption><b>{director.name}</b><br /><i>{director.role}</i></figcaption>
 	</figure>
 	<div>
@@ -19,5 +19,8 @@
 	@media (min-width: 640px) { .grid { grid-template-columns: 250px 1fr; } }
 	figure { margin: 0; font-size: 0.9rem; color: var(--muted); }
 	figure :global(img) { width: 100%; max-width: 250px; height: auto; border-radius: var(--radius); box-shadow: var(--shadow); display: block; margin-bottom: 0.75rem; }
+	@media (max-width: 639px) {
+		figure :global(img) { max-width: none; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 15%; }
+	}
 	figcaption b { color: var(--text); }
 </style>
