@@ -5,7 +5,7 @@
     commercial,
     trusted,
     trustedMore,
-  } from '#lib/data.ts';
+  } from "#lib/data.ts";
 
   let open = $state(false);
 </script>
@@ -48,7 +48,7 @@
 
     <p class="toggle">
       <button type="button" aria-expanded={open} onclick={() => (open = !open)}>
-        {open ? 'Свернуть списки' : 'Показать списки целиком'}
+        {open ? "Свернуть списки" : "Показать списки целиком"}
       </button>
     </p>
   </div>
