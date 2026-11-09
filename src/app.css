@@ -1,59 +1,112 @@
 :root {
-	--bg: #0c0f13;
-	--surface: #12171d;
-	--raised: #181f27;
-	--paper: #fff;
-	--text: #e8ecf1;
-	--muted: #98a4b3;
-	--line: #242c36;
-	--line-strong: #36414f;
-	--accent: #5b8cff;
-	--accent-ink: #07101f;
-	--radius: 4px;
-	--shadow: 0 1px 2px rgb(0 0 0 / 0.5), 0 12px 32px rgb(0 0 0 / 0.35);
-	--ease: cubic-bezier(0.16, 1, 0.3, 1);
-	color-scheme: dark light;
+  --bg: #0c0f13;
+  --surface: #12171d;
+  --raised: #181f27;
+  --paper: #fff;
+  --text: #e8ecf1;
+  --muted: #98a4b3;
+  --line: #242c36;
+  --line-strong: #36414f;
+  --accent: #5b8cff;
+  --accent-ink: #07101f;
+  --radius: 4px;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.5), 0 12px 32px rgb(0 0 0 / 0.35);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  color-scheme: dark light;
 }
 @media (prefers-color-scheme: light) {
-	:root {
-		--bg: #eceff3;
-		--surface: #f7f8fa;
-		--raised: #fff;
-		--paper: #fff;
-		--text: #10151c;
-		--muted: #4a5666;
-		--line: #d3d9e1;
-		--line-strong: #b5bec9;
-		--accent: #1a47c8;
-		--accent-ink: #fff;
-		--shadow: 0 1px 2px rgb(16 24 40 / 0.08), 0 12px 32px rgb(16 24 40 / 0.08);
-	}
+  :root {
+    --bg: #eceff3;
+    --surface: #f7f8fa;
+    --raised: #fff;
+    --paper: #fff;
+    --text: #10151c;
+    --muted: #4a5666;
+    --line: #d3d9e1;
+    --line-strong: #b5bec9;
+    --accent: #1a47c8;
+    --accent-ink: #fff;
+    --shadow: 0 1px 2px rgb(16 24 40 / 0.08), 0 12px 32px rgb(16 24 40 / 0.08);
+  }
 }
-*, *::before, *::after { box-sizing: border-box; }
-html { scrollbar-color: var(--line-strong) transparent; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  scrollbar-color: var(--line-strong) transparent;
+}
 body {
-	margin: 0;
-	overflow-x: clip;
-	accent-color: var(--accent);
-	background: var(--bg);
-	color: var(--text);
-	font: 400 1rem/1.6 'IBM Plex Sans', system-ui, sans-serif;
-	-webkit-font-smoothing: antialiased;
+  margin: 0;
+  overflow-x: clip;
+  accent-color: var(--accent);
+  background: var(--bg);
+  color: var(--text);
+  font:
+    400 1rem/1.6 "IBM Plex Sans",
+    system-ui,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
-h1, h2, h3 { margin: 0 0 0.6em; line-height: 1.15; text-wrap: balance; font-weight: 600; letter-spacing: -0.015em; }
-h2 { font-size: clamp(1.6rem, 3.2vw, 2.4rem); }
-h3 { font-size: 1.1rem; letter-spacing: 0; }
-p { margin: 0 0 1em; text-wrap: pretty; }
-a { color: var(--accent); text-underline-offset: 0.2em; }
-a:hover { text-decoration-thickness: 2px; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-::selection { background: var(--accent); color: var(--accent-ink); }
-button { -webkit-tap-highlight-color: transparent; font: inherit; }
-picture { display: contents; }
-.wrap { width: min(1180px, 100% - 2.5rem); margin-inline: auto; }
-.section { padding-block: clamp(3rem, 8vw, 6rem); }
-.rule { border-top: 1px solid var(--line); }
+h1,
+h2,
+h3 {
+  margin: 0 0 0.6em;
+  line-height: 1.15;
+  text-wrap: balance;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+h2 {
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+}
+h3 {
+  font-size: 1.1rem;
+  letter-spacing: 0;
+}
+p {
+  margin: 0 0 1em;
+  text-wrap: pretty;
+}
+a {
+  color: var(--accent);
+  text-underline-offset: 0.2em;
+}
+a:hover {
+  text-decoration-thickness: 2px;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+button {
+  -webkit-tap-highlight-color: transparent;
+  font: inherit;
+}
+picture {
+  display: contents;
+}
+.wrap {
+  width: min(1180px, 100% - 2.5rem);
+  margin-inline: auto;
+}
+.section {
+  padding-block: clamp(3rem, 8vw, 6rem);
+}
+.rule {
+  border-top: 1px solid var(--line);
+}
 @media (prefers-reduced-motion: reduce) {
-	/* Keep colour feedback on hover and focus; drop movement, scaling and scrolling. */
-	* { animation: none !important; scroll-behavior: auto !important; transition-property: color, background-color, border-color, opacity !important; }
+  /* Keep colour feedback on hover and focus; drop movement, scaling and scrolling. */
+  * {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition-property:
+      color, background-color, border-color, opacity !important;
+  }
 }
