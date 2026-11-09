@@ -13,6 +13,7 @@
 
 <Header />
 <main>
+	<h1 class="sr-only">ООО «ОстМастер» — комплексные системы безопасности</h1>
 	<Services />
 	<Director />
 	<Clients />

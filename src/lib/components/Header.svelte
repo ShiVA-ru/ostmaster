@@ -25,11 +25,12 @@
 </dialog>
 
 <style>
-	header { background: #fff; box-shadow: var(--shadow); }
+	header { background: var(--header-bg); box-shadow: var(--shadow); }
 	.bar { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; padding-block: 1rem; }
-	address { font-style: normal; display: grid; gap: 0.15rem; color: #1c2430; font-size: 0.95rem; }
-	.phone { font-size: 1.25rem; font-weight: 600; text-decoration: none; color: #0b4fa8; }
-	address button { justify-self: start; background: none; border: 0; padding: 0.25rem 0; color: #0b4fa8; font: inherit; text-decoration: underline dashed; cursor: pointer; }
+	address { font-style: normal; display: grid; gap: 0.15rem; color: var(--header-text); font-size: 0.95rem; }
+	.phone { font-size: 1.25rem; font-weight: 600; text-decoration: none; color: var(--header-link); }
+	address button { justify-self: start; background: none; border: 0; padding: 0.6rem 0; min-height: 2.75rem; color: var(--header-link); font: inherit; text-decoration: underline dashed; cursor: pointer; }
+	@media (pointer: coarse) { .phone { display: inline-flex; align-items: center; min-height: 2.75rem; } address { gap: 0; } }
 	dialog { border: 0; padding: 0; border-radius: var(--radius); max-width: min(900px, 95vw); overflow: visible; }
 	dialog::backdrop { background: rgb(0 0 0 / 0.6); }
 	dialog :global(img) { display: block; width: 100%; height: auto; border-radius: var(--radius); }

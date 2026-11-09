@@ -16,7 +16,7 @@
 
 <style>
 	.grid { display: grid; gap: 2rem; }
-	@media (min-width: 800px) { .grid { grid-template-columns: 250px 1fr; } }
+	@media (min-width: 640px) { .grid { grid-template-columns: 250px 1fr; } }
 	figure { margin: 0; font-size: 0.9rem; color: var(--muted); }
 	figure :global(img) { width: 100%; max-width: 250px; height: auto; border-radius: var(--radius); box-shadow: var(--shadow); display: block; margin-bottom: 0.75rem; }
 	figcaption b { color: var(--text); }
