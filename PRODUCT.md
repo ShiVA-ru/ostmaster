@@ -28,7 +28,7 @@ Undecided: whether a request form or lead flow will be added.
 
 ## Brand Commitments
 Company name «ОстМастер», tagline «Комплексные системы безопасности», and the existing logo (emblem vectorised from the original raster (traced silhouettes + gradients) at `src/lib/assets/emblem.svg`, an ellipse monogram with the word МАСТЕР; the wordmark text beside it is live HTML text in `Logo.svelte`). Director name and photo are confirmed real: Иван Иванович Мастеров, director.
-Standing visual preference (user's choice, "category standard" round): keep the design as close as possible to the original 2012 site (white header with logo and contacts, light grey page, services slider, director's word, object lists, footer), modernised in craft only, not reinvented.
+Visual direction (owner's choice, November 2026): strict engineering look replacing the earlier "keep close to the 2012 original" preference. Graphite dark theme with a light variant, IBM Plex Sans, one blue accent, hairline rules, no decorative ornament. The logo emblem stays as vectorised from the original.
 
 ## Evidence on Hand
 Real: the client and object lists (municipal and commercial, with addresses), the director's statement, contact details, and the service descriptions, all carried over from the 2012 site.

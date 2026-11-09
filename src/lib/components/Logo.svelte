@@ -12,10 +12,11 @@
 </a>
 
 <style>
-	.logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: #0e1116; width: fit-content; }
-	.logo:hover { color: #0e1116; }
-	img { display: block; height: 4.5rem; width: auto; flex: none; }
-	.words { display: grid; gap: 0.15rem; }
-	.name { font-size: clamp(1.35rem, 4.6vw, 1.9rem); font-weight: 800; line-height: 1.1; letter-spacing: 0.02em; white-space: nowrap; }
-	.tagline { font-size: clamp(0.8rem, 2.6vw, 0.95rem); font-style: italic; line-height: 1.2; }
+	.logo { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; color: var(--text); width: fit-content; }
+	.logo:hover { color: var(--text); text-decoration: none; }
+	img { display: block; height: 3rem; width: auto; flex: none; }
+	.words { display: grid; gap: 0.1rem; }
+	.name { font-size: 1.15rem; font-weight: 600; line-height: 1.1; letter-spacing: 0.01em; white-space: nowrap; }
+	.tagline { font-size: 0.8rem; color: var(--muted); line-height: 1.2; }
+	@media (max-width: 420px) { .tagline { display: none; } }
 </style>

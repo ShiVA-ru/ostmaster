@@ -1,89 +1,99 @@
 <script lang="ts">
+	import { tick } from 'svelte';
+	import { fly } from 'svelte/transition';
+	import { expoOut } from 'svelte/easing';
 	import { services } from '#lib/data.ts';
 
 	let index = $state(0);
-	let prev = $state(-1);
-	let dir = $state(1);
-	let hovered = $state(false);
-	const paused = $derived(hovered);
-	const count = services.length;
-
-	const go = (i: number, d?: number) => {
-		const next = (i + count) % count;
-		if (next === index) return;
-		dir = d ?? (i < index ? -1 : 1);
-		prev = index;
-		index = next;
-	};
-	// Which side an inactive slide waits on: the one just left exits opposite to the travel direction.
-	const side = (i: number) => (i === prev ? -dir : dir);
-
+	const current = $derived(services[index]);
+	let dur = $state(0);
 	$effect(() => {
-		if (paused) return;
-		const id = setInterval(() => go(index + 1, 1), 7000);
-		return () => clearInterval(id);
+		dur = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 450;
 	});
+	// On narrow screens the previously open item collapses above the tapped one;
+	// keep the tapped title under the finger instead of letting the page jump.
+	const pick = async (i: number, e: MouseEvent) => {
+		const btn = e.currentTarget as HTMLElement;
+		const before = btn.getBoundingClientRect().top;
+		index = i;
+		await tick();
+		const delta = btn.getBoundingClientRect().top - before;
+		if (delta) scrollBy({ top: delta, behavior: 'instant' });
+	};
+	const keynav = (e: KeyboardEvent) => {
+		const k = e.key;
+		if (!['ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(k)) return;
+		e.preventDefault();
+		const n = services.length;
+		index = k === 'Home' ? 0 : k === 'End' ? n - 1 : (index + (k === 'ArrowDown' || k === 'ArrowRight' ? 1 : -1) + n) % n;
+		document.getElementById(`tab-${index}`)?.focus();
+	};
 </script>
 
-<section
-	class="wrap section"
-	aria-roledescription="carousel"
-	aria-label="Наши услуги"
-	onmouseenter={() => (hovered = true)}
-	onmouseleave={() => (hovered = false)}
-	onfocusin={() => (hovered = true)}
-	onfocusout={() => (hovered = false)}
->
-	<div class="card">
-		<div class="stage" aria-live={paused ? 'polite' : 'off'}>
-		{#each services as s, i (s.title)}
-			<article class="slide" class:active={i === index} style:--side={side(i)} aria-hidden={i !== index} aria-roledescription="slide" aria-label="{i + 1} из {count}">
-				<div class="text">
-					<h2>{s.title}</h2>
-					<p>{s.text}</p>
-				</div>
-				<div class="pic"><enhanced:img src={s.image} alt="" sizes="(min-width: 800px) 460px, 90vw" loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} /></div>
-			</article>
-		{/each}
-		</div>
-		<div class="controls">
-			<button type="button" onclick={() => go(index - 1, -1)} aria-label="Предыдущая услуга">‹</button>
-			<div class="dots">
-				{#each services as s, i}
-					<button type="button" class:on={i === index} aria-label={s.title} aria-current={i === index} onclick={() => go(i, i < index ? -1 : 1)}></button>
-				{/each}
+{#snippet detail()}
+	{#key index}
+		<div class="detail" in:fly={{ y: 14, duration: dur, easing: expoOut }}>
+			<div class="pic"><enhanced:img src={current.image} alt="" sizes="(min-width: 900px) 420px, 90vw" /></div>
+			<div class="text">
+				<h3>{current.title}</h3>
+				<p>{current.text}</p>
 			</div>
-			<button type="button" onclick={() => go(index + 1, 1)} aria-label="Следующая услуга">›</button>
 		</div>
+	{/key}
+{/snippet}
+
+<section class="wrap section" aria-labelledby="services-h">
+	<h2 id="services-h">Что мы устанавливаем</h2>
+	<div class="layout">
+		<div class="tabs" role="tablist" aria-orientation="vertical" aria-label="Системы безопасности" tabindex="-1" onkeydown={keynav}>
+			{#each services as s, i}
+				<div class="item" class:on={i === index}>
+					<button
+						type="button"
+						role="tab"
+						id="tab-{i}"
+						aria-selected={i === index}
+						aria-controls="panel"
+						tabindex={i === index ? 0 : -1}
+						onclick={(e) => pick(i, e)}>{s.title}</button
+					>
+					{#if i === index}<div class="inline" aria-hidden="true">{@render detail()}</div>{/if}
+				</div>
+			{/each}
+		</div>
+		<div class="aside" id="panel" role="tabpanel" aria-labelledby="tab-{index}" tabindex="-1">{@render detail()}</div>
 	</div>
 </section>
 
 <style>
-	.card { --ease: cubic-bezier(0.16, 1, 0.3, 1); --pad: clamp(1.25rem, 4vw, 3rem); background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: var(--pad); overflow: hidden; }
-	.stage { display: grid; margin-inline: calc(var(--pad) * -1); padding-inline: var(--pad); }
-	.slide {
-		grid-area: 1 / 1;
-		display: grid; gap: 2rem; align-items: center; min-height: 22rem;
-		opacity: 0; visibility: hidden;
-		transition: opacity 0.45s var(--ease), visibility 0s linear 0.6s;
+	.layout { display: grid; gap: 0; margin-top: 2rem; }
+	@media (min-width: 900px) { .layout { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 3rem; align-items: start; } }
+	.tabs { border-top: 1px solid var(--line); }
+	.item { border-bottom: 1px solid var(--line); }
+	.item button {
+		display: block; width: 100%; text-align: left; padding: 1rem 2.5rem 1rem 0; background: none; border: 0; color: var(--muted);
+		font-size: 1.02rem; line-height: 1.35; cursor: pointer; position: relative; transition: color 0.2s;
 	}
-	.slide.active { opacity: 1; visibility: visible; transition: opacity 0.6s var(--ease) 0.1s, visibility 0s; }
-	.text, .pic { transition: transform 0.7s var(--ease), opacity 0.45s var(--ease); opacity: 0; transform: translateX(calc(var(--side) * 3rem)); }
-	.pic { transform: translateX(calc(var(--side) * 6rem)) scale(0.94); }
-	.slide.active .text, .slide.active .pic { opacity: 1; transform: none; transition-duration: 0.7s, 0.6s; transition-delay: 0.1s; }
-	.slide.active .pic { transition-delay: 0.18s; }
-	.slide > * { min-width: 0; }
-	.pic { display: grid; place-items: center; aspect-ratio: 5 / 4; max-height: 22rem; margin-inline: auto; width: 100%; }
-	@media (min-width: 800px) { .slide { grid-template-columns: 1.2fr 1fr; } }
-	.pic :global(img) { width: 100%; height: 100%; object-fit: contain; }
-	.text p { color: var(--muted); font-size: 1.05rem; }
-	.controls { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.5rem; }
-	.controls > button { width: 2.5rem; height: 2.5rem; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--text); font-size: 1.4rem; cursor: pointer; }
-	.controls > button:hover { border-color: var(--accent); }
-	.dots { display: flex; flex-wrap: wrap; justify-content: center; }
-	.dots button { position: relative; width: 1.5rem; height: 1.75rem; padding: 0; border: 0; background: none; cursor: pointer; }
-	.dots button::after { content: ''; position: absolute; inset: 50% auto auto 50%; width: 0.65rem; height: 0.65rem; margin: -0.325rem; border-radius: 50%; background: var(--line); transition: background 0.2s, transform 0.2s; }
-	.dots button.on::after { background: var(--accent); transform: scale(1.3); }
-	.dots button:hover::after { background: var(--muted); }
-	.controls { flex-wrap: wrap; }
+	.item button::after {
+		content: ''; position: absolute; right: 0.25rem; top: 50%; width: 0.55rem; height: 0.55rem; margin-top: -0.35rem;
+		border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform 0.3s var(--ease);
+	}
+	.item button:hover { color: var(--text); }
+	.item.on button { color: var(--text); font-weight: 600; }
+	.item.on button::after { transform: rotate(45deg); color: var(--accent); }
+	.inline { display: block; padding-bottom: 1.5rem; min-width: 0; }
+	.inline :global(h3) { display: none; }
+	.inline :global(.text p) { margin-top: 0; }
+	.aside { display: none; }
+	@media (min-width: 900px) {
+		.inline { display: none; }
+		.aside { display: block; position: sticky; top: 1.5rem; }
+		.item.on button::after { transform: rotate(-45deg); }
+	}
+	.detail { display: grid; gap: 1.5rem; min-width: 0; }
+	.layout > * { min-width: 0; }
+	.text h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); letter-spacing: -0.01em; }
+	.text p { color: var(--muted); font-size: 1.05rem; max-width: 62ch; }
+	.pic { position: relative; background: var(--paper); border-radius: var(--radius); height: clamp(13rem, 32vw, 20rem); overflow: hidden; }
+	.pic :global(img) { position: absolute; inset: 1.25rem; width: calc(100% - 2.5rem); height: calc(100% - 2.5rem); object-fit: contain; }
 </style>
