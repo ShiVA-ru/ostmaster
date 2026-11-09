@@ -26,10 +26,11 @@
 	.copy p { max-width: 52ch; font-size: 1.15rem; color: var(--muted); }
 	.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
 	.actions a { display: inline-flex; align-items: center; min-height: 3rem; padding: 0 1.4rem; border-radius: var(--radius); font-weight: 600; text-decoration: none; transition: background 0.2s, border-color 0.2s, color 0.2s; }
+	@media (max-width: 599px) { .actions { display: grid; grid-template-columns: 1fr; } .actions a { justify-content: center; text-align: center; } }
 	.primary { background: var(--accent); color: var(--accent-ink); font-variant-numeric: tabular-nums; }
 	.primary:hover { color: var(--accent-ink); filter: brightness(1.1); }
 	.ghost { border: 1px solid var(--line-strong); color: var(--text); }
 	.ghost:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-	.mark { width: min(100%, 460px); height: auto; justify-self: center; filter: drop-shadow(0 18px 40px rgb(0 0 0 / 0.45)); }
+	.mark { width: min(100%, 460px); height: auto; justify-self: center; filter: drop-shadow(0 14px 28px rgb(0 0 0 / 0.28)); }
 	@media (max-width: 899px) { .mark { display: none; } }
 </style>

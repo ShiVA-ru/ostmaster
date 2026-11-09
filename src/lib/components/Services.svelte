@@ -44,6 +44,14 @@
 
 <section class="wrap section" aria-labelledby="services-h">
 	<h2 id="services-h">Что мы устанавливаем</h2>
+	<noscript>
+		<div class="plain">
+			{#each services as s}
+				<h3>{s.title}</h3>
+				<p>{s.text}</p>
+			{/each}
+		</div>
+	</noscript>
 	<div class="layout">
 		<div class="tabs" role="tablist" aria-orientation="vertical" aria-label="Системы безопасности" tabindex="-1" onkeydown={keynav}>
 			{#each services as s, i}
@@ -53,11 +61,10 @@
 						role="tab"
 						id="tab-{i}"
 						aria-selected={i === index}
-						aria-controls="panel"
 						tabindex={i === index ? 0 : -1}
 						onclick={(e) => pick(i, e)}>{s.title}</button
 					>
-					{#if i === index}<div class="inline" aria-hidden="true">{@render detail()}</div>{/if}
+					{#if i === index}<div class="inline">{@render detail()}</div>{/if}
 				</div>
 			{/each}
 		</div>
@@ -66,6 +73,9 @@
 </section>
 
 <style>
+	:global(html:not(.js)) .layout { display: none; }
+	.plain p { color: var(--muted); max-width: 62ch; }
+	.plain h3 { margin-top: 1.5rem; }
 	.layout { display: grid; gap: 0; margin-top: 2rem; }
 	@media (min-width: 900px) { .layout { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 3rem; align-items: start; } }
 	.tabs { border-top: 1px solid var(--line); }

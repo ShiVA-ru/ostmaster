@@ -54,5 +54,6 @@ picture { display: contents; }
 .section { padding-block: clamp(3rem, 8vw, 6rem); }
 .rule { border-top: 1px solid var(--line); }
 @media (prefers-reduced-motion: reduce) {
-	* { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+	/* Keep colour feedback on hover and focus; drop movement, scaling and scrolling. */
+	* { animation: none !important; scroll-behavior: auto !important; transition-property: color, background-color, border-color, opacity !important; }
 }

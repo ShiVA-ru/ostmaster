@@ -19,4 +19,5 @@
 	.name { font-size: 1.15rem; font-weight: 600; line-height: 1.1; letter-spacing: 0.01em; white-space: nowrap; }
 	.tagline { font-size: 0.8rem; color: var(--muted); line-height: 1.2; }
 	@media (max-width: 420px) { .tagline { display: none; } }
+	@media (max-width: 640px) { img { height: 4.25rem; } .logo { gap: 0.65rem; } }
 </style>

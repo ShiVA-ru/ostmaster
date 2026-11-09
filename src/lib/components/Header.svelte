@@ -36,7 +36,7 @@
 	.phone { font-size: 1.15rem; font-weight: 600; color: var(--text); text-decoration: none; }
 	.phone:hover { color: var(--accent); }
 	.where button { background: none; border: 0; padding: 0 0 0 0.4rem; color: var(--accent); text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; font-size: inherit; }
-	@media (max-width: 640px) { address { justify-items: start; } .phones { justify-content: flex-start; } }
+	@media (max-width: 640px) { .bar { justify-content: center; } address { justify-items: center; text-align: center; } .phones { justify-content: center; } }
 	dialog { border: 1px solid var(--line-strong); padding: 0; border-radius: var(--radius); max-width: min(900px, 95vw); overflow: visible; background: var(--surface); }
 	dialog::backdrop { background: rgb(0 0 0 / 0.7); }
 	dialog :global(img) { display: block; width: 100%; height: auto; border-radius: var(--radius); }
